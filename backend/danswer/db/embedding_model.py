@@ -35,7 +35,7 @@ def create_embedding_model(
         # The initial one from migration is called "danswer_chunk"
         index_name=f"danswer_chunk_{clean_model_name(model_details.model_name)}",
     )
-
+    logger.info(f"Creating embedding model: {embedding_model.model_name}")
     db_session.add(embedding_model)
     db_session.commit()
 
@@ -47,6 +47,7 @@ def get_current_db_embedding_model(db_session: Session) -> EmbeddingModel:
         select(EmbeddingModel)
         .where(EmbeddingModel.status == IndexModelStatus.PRESENT)
         .order_by(EmbeddingModel.id.desc())
+        # .offset(1)
     )
     result = db_session.execute(query)
     latest_model = result.scalars().first()
@@ -62,6 +63,7 @@ def get_secondary_db_embedding_model(db_session: Session) -> EmbeddingModel | No
         select(EmbeddingModel)
         .where(EmbeddingModel.status == IndexModelStatus.FUTURE)
         .order_by(EmbeddingModel.id.desc())
+        # .offset(1)
     )
     result = db_session.execute(query)
     latest_model = result.scalars().first()

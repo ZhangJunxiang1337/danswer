@@ -1,5 +1,7 @@
 import gc
 import os
+import socket
+import socks
 from enum import Enum
 from typing import Optional
 from typing import TYPE_CHECKING
@@ -12,8 +14,8 @@ from danswer.configs.app_configs import MODEL_SERVER_HOST
 from danswer.configs.app_configs import MODEL_SERVER_PORT
 from danswer.configs.model_configs import CROSS_EMBED_CONTEXT_SIZE
 from danswer.configs.model_configs import CROSS_ENCODER_MODEL_ENSEMBLE
-from danswer.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
 from danswer.configs.model_configs import DOCUMENT_ENCODER_MODEL
+from danswer.configs.model_configs import DOC_EMBEDDING_CONTEXT_SIZE
 from danswer.configs.model_configs import INTENT_MODEL_VERSION
 from danswer.configs.model_configs import QUERY_MAX_CONTEXT_SIZE
 from danswer.utils.logger import setup_logger
@@ -24,6 +26,8 @@ from shared_models.model_server_models import IntentResponse
 from shared_models.model_server_models import RerankRequest
 from shared_models.model_server_models import RerankResponse
 
+socks.set_default_proxy(socks.SOCKS5, "10.1.11.55", 1080, username="allen", password="18666219075")
+socket.socket = socks.socksocket
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"

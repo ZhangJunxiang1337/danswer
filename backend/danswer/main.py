@@ -3,6 +3,8 @@ from contextlib import asynccontextmanager
 from typing import Any
 from typing import cast
 
+import socket
+import socks
 import nltk  # type:ignore
 import torch  # Import here is fine, API server needs torch anyway and nothing imports main.py
 import uvicorn
@@ -134,6 +136,9 @@ def include_router_with_global_prefix_prepended(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator:
+    socks.set_default_proxy(socks.SOCKS5, "10.1.11.55", 1080, username="allen", password="18666219075")
+    socket.socket = socks.socksocket
+    logger.info("socket proxy activated")
     engine = get_sqlalchemy_engine()
 
     verify_auth = fetch_versioned_implementation(

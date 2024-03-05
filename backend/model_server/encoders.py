@@ -1,3 +1,5 @@
+import socket
+import socks
 from typing import TYPE_CHECKING
 
 from fastapi import APIRouter
@@ -12,6 +14,9 @@ from shared_models.model_server_models import EmbedRequest
 from shared_models.model_server_models import EmbedResponse
 from shared_models.model_server_models import RerankRequest
 from shared_models.model_server_models import RerankResponse
+
+socks.set_default_proxy(socks.SOCKS5, "10.1.11.55", 1080, username="allen", password="18666219075")
+socket.socket = socks.socksocket
 
 if TYPE_CHECKING:
     from sentence_transformers import SentenceTransformer  # type: ignore
