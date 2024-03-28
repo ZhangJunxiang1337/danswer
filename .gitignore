@@ -5,3 +5,5 @@
 .idea
 /deployment/data/nginx/app.conf
 .vscode/launch.json
+/local_watcher/watch/
+/local_watcher/markdown/
